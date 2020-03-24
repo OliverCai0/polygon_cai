@@ -115,10 +115,10 @@ def add_sphere(polygons, cx, cy, cz, r, steps ):
                     add_polygon(polygons,
                             points[index],
                             points[index + 1],
-                            points[index + longt_stop - len(points)])
+                            points[index + longt_stop - len(points) + 1])
                     add_polygon(polygons,
                             points[index],
-                            points[index + longt_stop - len(points)],
+                            points[index + longt_stop - len(points) + 1],
                             points[index + 1])
             elif longt == longt_stop:
                     print('lol')
@@ -129,9 +129,9 @@ def add_sphere(polygons, cx, cy, cz, r, steps ):
             else:
                 add_polygon(polygons,points[index],
                             points[index + 1],
-                            points[index + longt_stop])
+                            points[index + longt_stop + 1])
                 add_polygon(polygons,points[index],
-                            points[index + longt_stop],
+                            points[index + longt_stop + 1],
                             points[index + 1])
 
             # add_edge(polygons, points[index][0],
