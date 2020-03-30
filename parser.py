@@ -136,7 +136,7 @@ def parse_file( fname, edges, polygons, transform, screen, color ):
 
         elif line == 'apply':
              #print_matrix(polygons[11])
-             print('Yes')
+             #print('Yes')
              matrix_mult( transform, edges )
              #print_matrix(transform)
              #print_matrix(polygons[1])
