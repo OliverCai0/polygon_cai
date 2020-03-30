@@ -154,6 +154,7 @@ def parse_file( fname, edges, polygons, transform, screen, color ):
              #print(len(polygons))
         elif line == 'clear':
             edges = []
+            polygons = []
             
         elif line == 'display' or line == 'save':
             clear_screen(screen)

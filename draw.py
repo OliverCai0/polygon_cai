@@ -19,16 +19,16 @@ def add_polygon( polygons, p1,p2,p3):
 
 def draw_polygons( polygons, screen, color ):
     for triangle in polygons:
-        #print(triangle)
-        draw_lines(
-            [triangle[0],
-             triangle[1],
-             triangle[1],
-             triangle[2],
-             triangle[2],
-             triangle[0]
-            ], screen, color
-        )
+        if dot_product(calculate_normal(triangle),[0,0,1]) >= 0:
+            draw_lines(
+                [triangle[0],
+                triangle[1],
+                triangle[1],
+                triangle[2],
+                triangle[2],
+                triangle[0]
+                ], screen, color
+            )
 
 
 def add_box( polygons, x, y, z, width, height, depth ):
@@ -173,45 +173,86 @@ def add_torus(polygons, cx, cy, cz, r0, r1, steps ):
     longt_stop = steps
 
     for lat in range(lat_start, lat_stop):
-        for longt in range(longt_start, longt_stop + 1):
+        for longt in range(longt_start, longt_stop):
             index = lat * steps + longt
 
-            if index >= len(points) - 1:
+            if index >= len(points):
                 break
-            elif index + steps + 2 >= len(points):
-                if longt != longt_stop:
-                    add_polygon(polygons,
-                                points[index],
-                                points[index + steps + 1 - len(points)],
-                                points[index + steps + 2 - len(points)])
-                    add_polygon(polygons,
-                                points[index],
-                                points[index + steps + 2 - len(points)],
-                                points[index + 1])
+            elif index + steps >= len(points):
+                if longt == longt_stop -1:
+                  add_polygon(polygons,
+                              points[index],
+                              points[index + steps - len(points)],
+                              points[index + 1 - len(points)])
+                  add_polygon(polygons,
+                              points[index],
+                              points[index + 1 - len(points)],
+                              points[index - longt + 1 - len(points)])    
                 else:
-                    add_polygon(polygons,
-                                points[index],
-                                points[index + steps + 2 - len(points)],
-                                points[index - steps - len(points)])
-            elif longt != longt_stop:
-                add_polygon(polygons,
-                            points[index],
-                            points[index + steps + 1],
-                            points[index + steps + 2])
-                add_polygon(polygons,
-                            points[index],
-                            points[index + steps + 2],
-                            points[index + 1])
+                  add_polygon(polygons,
+                              points[index],
+                              points[index + steps - len(points)],
+                              points[index + steps + 1 - len(points)])
+                  add_polygon(polygons,
+                              points[index],
+                              points[index + steps + 1 - len(points)],
+                              points[index + 1 - len(points)])          
             else:
-                add_polygon(polygons,
-                            points[index],
-                            points[index + steps + 1],
-                            points[index + steps + 2])
-                print('Exception')
-                add_polygon(polygons,
-                            points[index],
-                            points[index + steps + 2],
-                            points[index - steps + 1])
+                if longt == longt_stop - 1:
+                 #print('Exception')
+                 add_polygon(polygons,
+                             points[index],
+                             points[index + steps],
+                             points[index + 1])
+                 add_polygon(polygons,
+                             points[index],
+                             points[index + 1],
+                             points[index - longt + 1])  
+                else:
+                 add_polygon(polygons,
+                             points[index],
+                             points[index + steps],
+                             points[index + steps + 1])
+                 add_polygon(polygons,
+                             points[index],
+                             points[index + steps + 1],
+                             points[index + 1])          
+
+            # if index >= len(points) - 1:
+            #     break
+            # elif index + steps + 2 >= len(points):
+            #     if longt != longt_stop:
+            #         add_polygon(polygons,
+            #                     points[index],
+            #                     points[index + steps + 1 - len(points)],
+            #                     points[index + steps + 2 - len(points)])
+            #         add_polygon(polygons,
+            #                     points[index],
+            #                     points[index + steps + 2 - len(points)],
+            #                     points[index + 1])
+            #     else:
+            #         add_polygon(polygons,
+            #                     points[index],
+            #                     points[index + steps + 2 - len(points)],
+            #                     points[index - steps - len(points)])
+            # elif longt != longt_stop:
+            #     add_polygon(polygons,
+            #                 points[index],
+            #                 points[index + steps + 1],
+            #                 points[index + steps + 2])
+            #     add_polygon(polygons,
+            #                 points[index],
+            #                 points[index + steps + 2],
+            #                 points[index + 1])
+            # else:
+            #     add_polygon(polygons,
+            #                 points[index],
+            #                 points[index + steps + 1],
+            #                 points[index + steps + 2])
+            #     add_polygon(polygons,
+            #                 points[index],
+            #                 points[index + steps + 2],
+            #                 points[index - steps + 1])
 
 
             # add_edge(polygons, points[index][0],
